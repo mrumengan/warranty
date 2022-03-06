@@ -1,0 +1,56 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+
+/* @var $this yii\web\View */
+/* @var $model common\models\User */
+/* @var $form yii\widgets\ActiveForm */
+$model->username = $user->username;
+$model->status = $user->status;
+$model->email = $user->email;
+
+$my_roles = Yii::$app->authManager->getRolesByUser($user->id);
+$model->roles = key($my_roles);
+
+$roles = Yii::$app->authManager->getRoles();
+
+foreach($roles as $key => $role) {
+    if($key != 'SuperAdmin') {
+        $available_roles[] = ['id' => $key, 'name' => $role->name];
+    }
+}
+$role_options = [];
+foreach($my_roles as $role => $role_detail) {
+    $role_options[$role] = ['selected' => true];
+}
+
+?>
+<div class="user-form">
+
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'status')->dropDownList([0 => 'Inactive', 10 => 'Active']) ?>
+
+    <?= $form->field($model, 'roles')->dropDownList(ArrayHelper::map($available_roles, 'id', 'name'),
+    [
+          'multiple' => 'multiple',
+          'class' => 'chosen-select input-md form-control',
+          'size' => 5,
+            'options'=> $role_options
+        ] ) ?>
+
+    <?= $form->field($model, 'username')->textInput(['readonly' => $user->isNewRecord ? false : true]) ?>
+
+    <?= $form->field($model, 'email')->textInput() ?>
+
+    <?= $form->field($model, 'password')->passwordInput() ?>
+
+    <div class="form-group text-right">
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success btn-sm']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+</div>

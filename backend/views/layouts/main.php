@@ -36,6 +36,16 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Parts', 'url' => ['/parts/index'], 'items' => [
+            ['label' => 'Parts', 'url' => ['/parts/index']],
+            ['label' => 'Parts Movement', 'url' => ['/parts-movements/index']],
+            '<div class="dropdown-divider"></div>',
+            ['label' => 'Suppliers', 'url' => ['/suppliers/index']],
+        ]],
+        ['label' => 'Admin', 'url' => ['/site/index'], 'items' =>[
+            ['label' => 'Users', 'url' => ['/users/index'], 'visible' => Yii::$app->user->can('Admin')],
+            ['label' => 'RBAC', 'url' => ['/rbac'], 'visible' => Yii::$app->user->can('SuperAdmin')],
+        ]]
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
@@ -50,7 +60,7 @@ AppAsset::register($this);
             . '</li>';
     }
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
+        'options' => ['class' => 'navbar-nav ml-auto'],
         'items' => $menuItems,
     ]);
     NavBar::end();

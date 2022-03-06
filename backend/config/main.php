@@ -8,10 +8,20 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'name' => 'Warranty Adm',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'rbac' => [
+            'class' => 'mdm\admin\Module',
+            'layout' => 'right-menu',
+            'mainLayout' => '@app/views/layouts/main.php',
+            'as access' => [
+                'class' => 'mdm\admin\components\AccessControl'
+            ],
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -37,14 +47,12 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
