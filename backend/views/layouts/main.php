@@ -42,7 +42,7 @@ AppAsset::register($this);
             '<div class="dropdown-divider"></div>',
             ['label' => 'Suppliers', 'url' => ['/suppliers/index']],
         ]],
-        ['label' => 'Admin', 'url' => ['/site/index'], 'items' =>[
+        ['label' => 'Admin', 'url' => ['/site/index'], 'visible' => Yii::$app->user->can('Admin'), 'items' =>[
             ['label' => 'Users', 'url' => ['/users/index'], 'visible' => Yii::$app->user->can('Admin')],
             ['label' => 'RBAC', 'url' => ['/rbac'], 'visible' => Yii::$app->user->can('SuperAdmin')],
         ]]
