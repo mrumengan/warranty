@@ -16,10 +16,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'variant')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'stock_buffer')->textInput() ?>
 
     <div class="form-group text-right">

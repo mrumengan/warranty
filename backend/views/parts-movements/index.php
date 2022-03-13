@@ -32,15 +32,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->parts->name;
                 }
             ],
-            'type',
-            'supplier_id',
+            [
+                'label' => 'Type',
+                'value' => function($model) {
+                    return PartsMovement::$types[$model->type];
+                }
+            ],
+            [
+                'label' => Yii::t('app', 'Supplier'),
+                'value' => function($model) {
+                    return $model->supplier->name;
+                }
+            ],
             'batch_no',
             //'qty',
             //'price',
             //'updated_at',
             //'updated_by',
-            //'created_at',
-            //'created_by',
+            // 'created_at',
+            // 'created_by',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, PartsMovement $model, $key, $index, $column) {

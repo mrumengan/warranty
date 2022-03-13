@@ -26,12 +26,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'code',
+            // 'type',
             'name',
-            'type',
-            'variant',
+            // 'variant',
             //'unit_id',
             //'stock_buffer',
-            //'stock_available',
+            [
+                'attribute' => 'stock_available',
+                'value' => function($model) {
+                    return number_format($model->stock_available, 0);
+                }
+            ],
             //'created_at',
             //'updated_at',
             //'created_by',

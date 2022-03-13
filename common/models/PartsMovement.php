@@ -3,6 +3,10 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%parts_movement}}".
@@ -26,6 +30,8 @@ use Yii;
  */
 class PartsMovement extends \yii\db\ActiveRecord
 {
+    public static $types = ['CONSUMED' => 'Consumed', 'ADDED' => 'Received'];
+
     /**
      * {@inheritdoc}
      */
@@ -35,14 +41,35 @@ class PartsMovement extends \yii\db\ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                'value' => new Expression('NOW()'),
+            ],
+            BlameableBehavior::className(),
+
+        ];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
             [['parts_id', 'supplier_id', 'qty', 'price', 'updated_by', 'created_by'], 'integer'],
-            [['updated_at', 'created_at'], 'safe'],
+            [['moved_at', 'updated_at', 'created_at'], 'safe'],
+            [['moved_at'], 'required'],
             [['type'], 'string', 'max' => 20],
+            [['remarks'], 'string', 'max' => 500],
             [['batch_no'], 'string', 'max' => 45],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['parts_id'], 'exist', 'skipOnError' => true, 'targetClass' => Parts::className(), 'targetAttribute' => ['parts_id' => 'id']],
@@ -58,12 +85,14 @@ class PartsMovement extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'parts_id' => Yii::t('app', 'Parts ID'),
+            'parts_id' => Yii::t('app', 'Parts'),
             'type' => Yii::t('app', 'Type'),
-            'supplier_id' => Yii::t('app', 'Supplier ID'),
+            'supplier_id' => Yii::t('app', 'Supplier'),
             'batch_no' => Yii::t('app', 'Batch No'),
             'qty' => Yii::t('app', 'Qty'),
             'price' => Yii::t('app', 'Price'),
+            'remarks' => Yii::t('app', 'Notes'),
+            'moved_at' => Yii::t('app', 'Moved At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'updated_by' => Yii::t('app', 'Updated By'),
             'created_at' => Yii::t('app', 'Created At'),
@@ -110,4 +139,25 @@ class PartsMovement extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
+
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+        if (strpos($this->moved_at, '/') == 2) {
+            $this->moved_at = substr($this->moved_at, 6, 4) . '-' . substr($this->moved_at, 0, 2) . '-'
+                . substr($this->moved_at, 3, 2). ' '
+                . substr($this->moved_at, 11, 2) .':' . substr($this->moved_at, 14, 2) .':00';
+        }
+        if($this->type == 'ADDED') {
+            $this->qty = ABS($this->qty);
+        } else {
+            $this->qty = ABS($this->qty) * -1;
+        }
+
+        return true;
+
+    }
+
 }

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\models\PartsMovement;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\PartsMovement */
@@ -35,7 +36,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->parts->name;
                 }
             ],
-            'type',
+            [
+                'attribute' => 'type',
+                'value' => function($model) {
+                    return PartsMovement::$types[$model->type];
+                }
+            ],
             [
                 'label' => 'Supplier',
                 'value' => function($model) {
@@ -45,6 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'batch_no',
             'qty',
             'price',
+            'remarks:text',
+            'moved_at:datetime'
         ],
     ]) ?>
 

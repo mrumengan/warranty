@@ -117,6 +117,9 @@ class PartsMovementsController extends Controller
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            // echo '<pre>';
+            // print_r($model);
         }
 
         return $this->render('update', [

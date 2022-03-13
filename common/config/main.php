@@ -19,6 +19,7 @@ return [
             'currencyDecimalSeparator' => ',',
             'numberFormatterOptions' => [NumberFormatter::MIN_FRACTION_DIGITS => 0],
             'dateFormat' => 'dd MMMM yyyy',
+            'datetimeFormat' => 'dd MMMM yyyy HH:mm',
             'currencyCode' => 'IDR ',
             'numberFormatterSymbols' => [NumberFormatter::CURRENCY_SYMBOL => 'Rp.'],
         ],
