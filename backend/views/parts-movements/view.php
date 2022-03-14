@@ -52,7 +52,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'qty',
             'price',
             'remarks:text',
-            'moved_at:datetime'
+            'moved_at:datetime',
+            [
+                'label' => Yii::t('app', 'Receiver'),
+                'value' => function($model) {
+                    return $model->createdBy->username;
+                }
+            ],
         ],
     ]) ?>
 

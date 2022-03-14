@@ -45,6 +45,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'batch_no',
+            [
+                'label' => Yii::t('app', 'Receiver'),
+                'value' => function($model) {
+                    return $model->createdBy->username;
+                }
+            ],
             //'qty',
             //'price',
             //'updated_at',
