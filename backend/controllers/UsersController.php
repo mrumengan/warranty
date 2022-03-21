@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\User;
+use common\models\UserProfile;
 use yii\base\Security;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -78,14 +79,30 @@ class UsersController extends Controller
     {
         $model = new \backend\models\User();
         $user = new User();
+        $profile = new UserProfile();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/users']);
+        if ($model->load(Yii::$app->request->post()) && $profile->load(Yii::$app->request->post())) {
+            $is_valid = $model->validate();
+            if($is_valid) $profile->user_id = 1;
+            $is_valid = $profile->validate() && $is_valid;
+
+            if ($is_valid) {
+                $user = $model->save(false);
+                $profile->user_id = $user->id;
+                if(count($model->roles) == 1 && $model->roles[0] == 'Member') {
+                    $profile->type = 'MEMBER';
+                } else {
+                    $profile->type = 'USER';
+                }
+                $profile->save(false);
+                return $this->redirect(['/users']);
+            }
         }
 
         return $this->render('create', [
             'model' => $model,
-            'user' => $user
+            'user' => $user,
+            'profile' => $profile
         ]);
     }
 
@@ -100,9 +117,17 @@ class UsersController extends Controller
     {
         $model = new \backend\models\User();
         $user = $this->findModel($id);
+        $profile = UserProfile::findOne(['user_id' => $id]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $profile->load(Yii::$app->request->post())) {
+            $is_valid = $model->validate();
+            $is_valid = $profile->validate() && $is_valid;
             $model->id = $id;
+
+            if ($is_valid) {
+                $user->save(false);
+                $profile->save(false);
+            }
 
             if($model->password != null && trim($model->password) != '') {
                 $password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
@@ -115,7 +140,8 @@ class UsersController extends Controller
         
         return $this->render('update', [
             'model' => $model,
-            'user' => $user
+            'user' => $user,
+            'profile' => $profile
         ]);
     }
 

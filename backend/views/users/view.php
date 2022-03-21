@@ -51,6 +51,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html'
             ],
+            [
+                'label' => 'Address',
+                'value' => function($model) {
+                    return $model->profile->address;
+                }
+            ],
+            [
+                'label' => 'Mobile',
+                'value' => function($model) {
+                    return $model->profile->mobile;
+                }
+            ],
+            [
+                'label' => 'Notes',
+                'value' => function($model) {
+                    return $model->profile->notes;
+                }
+            ],
             'created_at:datetime',
             'updated_at:datetime',
         ],

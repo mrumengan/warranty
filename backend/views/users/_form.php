@@ -31,21 +31,36 @@ foreach($my_roles as $role => $role_detail) {
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'status')->dropDownList([0 => 'Inactive', 10 => 'Active']) ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <?= $form->field($model, 'status')->dropDownList([0 => 'Inactive', 10 => 'Active']) ?>
 
-    <?= $form->field($model, 'roles')->dropDownList(ArrayHelper::map($available_roles, 'id', 'name'),
-    [
-          'multiple' => 'multiple',
-          'class' => 'chosen-select input-md form-control',
-          'size' => 5,
-            'options'=> $role_options
-        ] ) ?>
+                    <?= $form->field($model, 'roles')->dropDownList(ArrayHelper::map($available_roles, 'id', 'name'),
+                    [
+                        'multiple' => 'multiple',
+                        'class' => 'chosen-select input-md form-control',
+                        'size' => 5,
+                            'options'=> $role_options
+                        ] ) ?>
 
-    <?= $form->field($model, 'username')->textInput(['readonly' => $user->isNewRecord ? false : true]) ?>
+                    <?= $form->field($model, 'username')->textInput(['readonly' => $user->isNewRecord ? false : true]) ?>
 
-    <?= $form->field($model, 'email')->textInput() ?>
+                    <?= $form->field($model, 'email')->textInput() ?>
 
-    <?= $form->field($model, 'password')->passwordInput() ?>
+                    <?= $form->field($model, 'password')->passwordInput() ?>
+
+                    <?= $form->field($profile, 'address')->textArea(['maxlength' => true]) ?>
+
+                    <?= $form->field($profile, 'mobile')->textInput(['maxlength' => true]) ?>
+
+                    <?= $form->field($profile, 'notes')->textArea(['maxlength' => true]) ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="form-group text-right">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success btn-sm']) ?>

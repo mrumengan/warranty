@@ -31,8 +31,8 @@ class User extends Model
         return [
             ['username', 'trim'],
             ['roles', function ($attribute, $params) {
-                if(!is_array($this->role)){
-                     $this->addError('role','Role is not array!');
+                if(!is_array($this->roles)){
+                     $this->addError('roles','Roles is not array!');
                  }
             }],
             [['email', 'username'], 'required'],
@@ -97,6 +97,13 @@ class User extends Model
             $user->email = $this->email;
             $user->status = $this->status;
             $user->auth_key = \Yii::$app->security->generateRandomString();
+
+            // echo '<pre>';
+            // print_r($this->attributes);
+            // print_r($user->attributes);
+            // print_r($this->roles);
+            // die('debug');
+
             if($user->save()) {
                 $auth = new DbManager;
                 $auth->init();

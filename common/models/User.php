@@ -60,6 +60,16 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
