@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
+use yii\db\Expression;
 use common\models\Repair;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -25,10 +26,10 @@ class RepairsController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::className(),
-                    'only' => ['index', 'create', 'update', 'delete'],
+                    'only' => ['index', 'create', 'update', 'delete', 'receive'],
                     'rules' => [
                         [
-                            'actions' => ['index', 'create', 'update', 'delete'],
+                            'actions' => ['index', 'create', 'update', 'delete', 'receive'],
                             'allow' => true,
                             'roles' => ['@'],
                         ],
@@ -135,6 +136,24 @@ class RepairsController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * Receives an existing Repair model.
+     * If receive is successful, the browser will be redirected to the 'index' page.
+     * @param int $id ID
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionReceive($id)
+    {
+        $model = $this->findModel($id);
+        $expression = new Expression('NOW()');
+        $now = (new \yii\db\Query)->select($expression)->scalar();
+        $model->received_at = $now;
+        $model->save();
 
         return $this->redirect(['index']);
     }

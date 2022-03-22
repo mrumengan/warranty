@@ -16,11 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Repair'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -32,11 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->userParts->type;
                 }
             ],
-            'user_parts_id',
             'problem:ntext',
-            'received_at',
-            'notification_at',
-            //'tech_recevied_at',
+            'received_at:datetime',
+            'notification_at:datetime',
+            'tech_recevied_at',
             //'action_taken:ntext',
             //'tech_done_at',
             //'admin_tested_at',
