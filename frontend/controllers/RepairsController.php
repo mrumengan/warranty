@@ -31,7 +31,7 @@ class RepairsController extends Controller
                         [
                             'actions' => ['index', 'create', 'update', 'delete'],
                             'allow' => true,
-                            'roles' => ['@'],
+                            'roles' => ['Member'],
                         ],
                     ],
                 ],
