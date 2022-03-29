@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create User Parts'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    <!-- <?php echo $this->render('_search', ['model' => $searchModel]); ?> -->
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,

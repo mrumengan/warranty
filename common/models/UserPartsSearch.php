@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\UserParts;
@@ -43,6 +44,7 @@ class UserPartsSearch extends UserParts
         $query = UserParts::find();
 
         // add conditions that should always apply here
+        $query->where(['user_id' => Yii::$app->user->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
