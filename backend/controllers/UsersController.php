@@ -137,6 +137,9 @@ class UsersController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        if(!$profile) {
+            $profile = new UserProfile();
+        }
         
         return $this->render('update', [
             'model' => $model,

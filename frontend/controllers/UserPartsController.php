@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use Yii;
 use common\models\UserParts;
 use common\models\UserPartsSearch;
 use yii\web\Controller;
@@ -82,6 +83,7 @@ class UserPartsController extends Controller
         $model = new UserParts();
 
         if ($this->request->isPost) {
+            $model->user_id = Yii::$app->user->id;
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }

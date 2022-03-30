@@ -92,7 +92,12 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            if($model->user->profile && $model->user->profile->type && $model->user->profile->type == 'MEMBER') {
+                return $this->goBack(Yii::$app->request->referrer);
+            } else {
+                Yii::$app->session->setFlash('error', 'There was an error validating your roles.');
+                $this->actionLogout();
+            }
         }
 
         $model->password = '';
@@ -221,11 +226,12 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('success', 'New password saved.');
 
             return $this->goHome();
+        } else {
+            return $this->render('resetPassword', [
+                'model' => $model,
+            ]);    
         }
 
-        return $this->render('resetPassword', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -265,10 +271,12 @@ class SiteController extends Controller
                 return $this->goHome();
             }
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
+        } else {
+            return $this->render('resendVerificationEmail', [
+                'model' => $model
+            ]);
+    
         }
 
-        return $this->render('resendVerificationEmail', [
-            'model' => $model
-        ]);
     }
 }
