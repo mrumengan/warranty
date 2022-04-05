@@ -28,6 +28,8 @@ use yii\db\Expression;
  */
 class UserParts extends \yii\db\ActiveRecord
 {
+    public $nice_name;
+
     /**
      * {@inheritdoc}
      */
@@ -119,5 +121,10 @@ class UserParts extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getNicename()
+    {
+        return $this->type .' '. $this->version;
     }
 }

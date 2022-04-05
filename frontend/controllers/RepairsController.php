@@ -53,7 +53,7 @@ class RepairsController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Repair::find(),
+            'query' => Repair::find()->where(['created_by' => Yii::$app->user->id]),
             /*
             'pagination' => [
                 'pageSize' => 50

@@ -11,6 +11,7 @@ use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 
 AppAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -20,6 +21,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
     <?php $this->head() ?>
 </head>
 <body class="d-flex flex-column h-100">
@@ -36,7 +38,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Parts', 'url' => ['/user-parts']],
+        ['label' => 'Hexohm', 'url' => ['/user-parts']],
         ['label' => 'Repair', 'url' => ['/repairs']],
     ];
     if (Yii::$app->user->isGuest) {

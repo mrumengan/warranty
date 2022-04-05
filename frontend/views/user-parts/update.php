@@ -5,11 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\UserParts */
 
-$this->title = Yii::t('app', 'Update User Parts: {name}', [
-    'name' => $model->id,
+$this->title = Yii::t('app', 'Update User Hexohm: {type} {version}', [
+    'type' => $model->type,
+    'version' => $model->version
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User Parts'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User Hexohms'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->nicename, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="user-parts-update">
