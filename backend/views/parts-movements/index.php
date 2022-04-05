@@ -51,7 +51,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->createdBy->username;
                 }
             ],
-            //'qty',
+            [
+                'attribute' => 'qty',
+                'value' => function($model) {
+                    return Yii::$app->formatter->asDecimal($model->qty);
+                },
+                'contentOptions'=>['style'=>'text-align: right']
+            ],
             //'price',
             //'updated_at',
             //'updated_by',
