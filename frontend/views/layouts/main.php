@@ -37,9 +37,9 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Hexohm', 'url' => ['/user-parts']],
-        ['label' => 'Repair', 'url' => ['/repairs']],
+        ['label' => 'Home', 'url' => ['/site/index'], 'visible' => !Yii::$app->user->isGuest],
+        ['label' => 'Hexohm', 'url' => ['/user-parts'], 'visible' => !Yii::$app->user->isGuest],
+        ['label' => 'Repair', 'url' => ['/repairs'], 'visible' => !Yii::$app->user->isGuest],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
@@ -75,7 +75,7 @@ AppAsset::register($this);
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
         <p class="float-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-        <p class="float-right"><?= Yii::powered() ?></p>
+        <p class="float-right"><?= 'Powered By Interindo' ?></p>
     </div>
 </footer>
 

@@ -27,6 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'problem:ntext',
+            [
+                'label' => 'Reported At',
+                'value' => function($model) {
+                    return Yii::$app->formatter->asDatetime($model->created_at);
+                }
+            ],
             'received_at',
             'notification_at',
             //'tech_recevied_at',

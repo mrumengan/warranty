@@ -96,13 +96,19 @@ class RepairsController extends Controller
 
         if ($this->request->isPost) {
             if ($parts->load($this->request->post()) && $model->load($this->request->post())) {
+
+                $parts->id = $_POST['UserParts']['id'];
                 $parts->user_id = Yii::$app->user->id;
-
                 $model->user_parts_id = 0;
-                $is_valid = $model->validate();
-                $is_valid = $parts->validate() && $is_valid;
 
-                $parts->save(false);
+                if($parts->id) { // existing hexohm
+                } else {
+                    $is_valid = $model->validate();
+                    $is_valid = $parts->validate() && $is_valid;
+    
+                    $parts->save(false);
+                }
+
                 $model->user_parts_id = $parts->id;
                 $model->save(false);
 
