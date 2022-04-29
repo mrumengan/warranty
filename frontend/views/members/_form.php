@@ -38,7 +38,7 @@ foreach($my_roles as $role => $role_detail) {
 
                     <?= $form->field($model, 'username')->textInput(['readonly' => $user->isNewRecord ? false : true]) ?>
 
-                    <?= $form->field($model, 'email')->textInput() ?>
+                    <?= $form->field($model, 'email')->textInput(['readonly' => $user->isNewRecord ? false : true]) ?>
 
                     <?= $form->field($model, 'password')->passwordInput() ?>
 

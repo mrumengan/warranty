@@ -37,21 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'label' => 'Role',
-                'value' => function ($model) {
-                    $my_role = '';
-                    $my_roles = Yii::$app->authManager->getRolesByUser($model->id);
-                    foreach ($my_roles as $role => $role_detail) {
-                        $my_role .= '<div>' . $role . '</div>';
-                    }
-
-                    // $my_role = key($my_roles);
-
-                    return $my_role;
-                },
-                'format' => 'html'
-            ],
-            [
                 'label' => 'Address',
                 'value' => function($model) {
                     return $model->profile->address;
@@ -69,8 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->profile->notes;
                 }
             ],
-            'created_at:datetime',
             'updated_at:datetime',
+            'created_at:datetime',
         ],
     ]) ?>
 
