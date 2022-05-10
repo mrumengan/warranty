@@ -33,6 +33,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'type',
             'parts_code',
             'notes',
+            [
+                'label' => 'Is Missing',
+                'value' => function($model) {
+                    if($model->missingHexohm) {
+                        return $model->missingHexohm::$statuses[$model->missingHexohm->status];
+                    } else {
+                        return '-';
+                    }
+                }
+            ]
         ],
     ]) ?>
 

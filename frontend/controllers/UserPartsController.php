@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\UserParts;
 use common\models\UserPartsSearch;
+use common\models\MissingHexohm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -107,12 +108,28 @@ class UserPartsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            if($model->missingHexohm) {
+                $missing_hexohm = $model->missingHexohm;
+            } else {
+                $missing_hexohm = new MissingHexohm();
+            }
+            $missing_hexohm->load($this->request->post());
+            if($missing_hexohm->status > 0) {
+                $missing_hexohm->hexohm_id = $model->id;
+                $missing_hexohm->save();
+            }
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
+        $missing_hexohm = MissingHexohm::findOne(['hexohm_id' => $id, 'created_by' => Yii::$app->user->id]);
+        if(!$missing_hexohm) $missing_hexohm = new MissingHexohm();
 
         return $this->render('update', [
             'model' => $model,
+            'missing' => $missing_hexohm
         ]);
     }
 

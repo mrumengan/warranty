@@ -21,6 +21,9 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'notes')->textArea(['maxlength' => true]) ?>
 
+        <?= $form->field($missing, 'status')->dropdownList([0 => '-', 10 => 'Missing', 20 => 'Found'],
+            array('labelOptions' => array('style' => 'display:inline'), 'separator' => '  ')) ?>
+    
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
         </div>

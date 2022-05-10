@@ -3,6 +3,10 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%missing_hexohm}}".
@@ -20,6 +24,11 @@ use Yii;
  */
 class MissingHexohm extends \yii\db\ActiveRecord
 {
+    static $statuses = [
+        10 => 'Missing',
+        20 => 'Found'
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -27,6 +36,26 @@ class MissingHexohm extends \yii\db\ActiveRecord
     {
         return '{{%missing_hexohm}}';
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                'value' => new Expression('NOW()'),
+            ],
+            BlameableBehavior::className(),
+
+        ];
+    }
+
 
     /**
      * {@inheritdoc}
@@ -49,7 +78,7 @@ class MissingHexohm extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'hexohm_id' => Yii::t('app', 'Hexohm ID'),
             'missing_at' => Yii::t('app', 'Missing At'),
-            'status' => Yii::t('app', 'Status'),
+            'status' => Yii::t('app', 'Is Missing?'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),

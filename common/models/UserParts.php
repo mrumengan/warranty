@@ -25,6 +25,7 @@ use yii\db\Expression;
  * @property User $createdBy
  * @property User $updatedBy
  * @property User $user
+ * @property MissingHexohm $missingHexohm
  */
 class UserParts extends \yii\db\ActiveRecord
 {
@@ -127,4 +128,15 @@ class UserParts extends \yii\db\ActiveRecord
     {
         return $this->type .' '. $this->version;
     }
+
+    /**
+     * Gets query for [[MissingHexohm]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMissingHexohm()
+    {
+        return $this->hasOne(MissingHexohm::className(), ['hexohm_id' => 'id']);
+    }
+
 }
