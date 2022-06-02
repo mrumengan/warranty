@@ -48,14 +48,15 @@ foreach($my_roles as $role => $role_detail) {
 
                     <?= $form->field($profile, 'notes')->textArea(['maxlength' => true]) ?>
 
+
+                    <div class="form-group text-right">
+                        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="form-group text-right">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success btn-sm']) ?>
-    </div>
+    </div><br />
 
     <?php ActiveForm::end(); ?>
 

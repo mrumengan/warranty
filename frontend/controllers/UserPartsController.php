@@ -26,10 +26,9 @@ class UserPartsController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::className(),
-                    'only' => ['index', 'create', 'update', 'delete'],
                     'rules' => [
                         [
-                            'actions' => ['index', 'create', 'update', 'delete'],
+                            'actions' => ['index', 'create', 'view', 'update', 'delete'],
                             'allow' => true,
                             'roles' => ['Member'],
                         ],
@@ -92,8 +91,11 @@ class UserPartsController extends Controller
             $model->loadDefaultValues();
         }
 
+        $missing_hexohm = new MissingHexohm();
+
         return $this->render('create', [
             'model' => $model,
+            'missing' => $missing_hexohm
         ]);
     }
 
